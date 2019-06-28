@@ -1,0 +1,10 @@
+spring:
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch #默认即为 elasticsearch
+      cluster-nodes: 9.1.9.229:9300 #配置es节点信息，逗号分隔，如果没有指定，则启动ClientNode
+debug: true
+server:
+  port: 18080
+  servlet:
+    context-path: /
