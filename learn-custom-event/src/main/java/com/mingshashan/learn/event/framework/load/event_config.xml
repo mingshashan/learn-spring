@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<event-config>
+
+	<!-- 
+		对Event Service实现类增加拦截器
+	 -->
+	<event-service>
+		<interceptors open="true">
+			<interceptor class="com.primeton.workflow.event.framework.event.base.interceptor.EventRunnerInterceptor" />
+			<!-- 
+			<interceptor class="com.primeton.workflow.event.base.interceptor.LockEventServiceInterceptor" />
+			 -->
+		</interceptors>
+	</event-service>
+
+	<!-- 
+		对EventRunner实现类进行配置，并配置拦截器
+	 -->
+	<event-runner>
+		<runner class="com.primeton.workflow.event.framework.event.base.EventServiceImplRunnerImpl4Start" />
+		<eventcontext-interceptors open="false">
+			<interceptor class="" />
+		</eventcontext-interceptors>
+		
+	</event-runner>
+
+    <!-- 
+    	各个模块需要在此处声明Event对象及实现类。
+    	未来如果引入event pool的情况下，可以考虑此种模式。暂时不用
+    <eventtypes>
+    	<event type="" typename="" class=""/>
+    </eventtypes>
+    -->
+    
+    <handlers>
+    	<handler alias="ProcessScheduler"   class="com.primeton.workflow.engine.scheduler.event.handler.process.ProcessScheduler"/>
+    	<handler alias="ActivityExecuter"   class="com.primeton.workflow.engine.scheduler.event.handler.activity.ActivityExecuter"/>
+    	<handler alias="ExceptionHandler"   class="com.primeton.workflow.engine.scheduler.event.ex.ExceptionHandler"/>
+    	<handler alias="ApplicationHandler" class="com.primeton.workflow.engine.scheduler.event.ApplicationHandler"/>
+    	<handler alias="TaskHandler"        class="com.primeton.workflow.task.engtask.TaskHandler"/>
+    	<handler alias="WFBizEventHandler"  class="com.primeton.workflow.engine.scheduler.event.handler.bizinfo.WFBizEventHandler"/>
+    </handlers>
+    
+    <!-- 此处是目前真正使用的，但尚不支持Handler提供构造函数参数 -->
+	<events>
+		<event type="10001" typename="START_PROCESS">
+			<handler alias="ProcessScheduler"/>
+		</event>
+		<event type="10002" typename="SCHEDULE_NEXT_ACTIVITY">
+			<handler alias="ProcessScheduler"/>
+		</event>
+		<event type="10003" typename="BACKWORD_ACTIVITY">
+			<handler alias="ProcessScheduler"/>
+		</event>
+		<event type="10004" typename="SUSPEND_PROCESS">
+			<handler alias="ProcessScheduler"/>
+		</event>
+		<event type="10005" typename="RESUME_PROCESS">
+			<handler alias="ProcessScheduler"/>
+		</event>
+		<event type="10006" typename="CHANGE_PROCESS_STATE">
+			<handler alias="ProcessScheduler"/>
+		</event>
+		<event type="10007" typename="TERMINATE_PROCESS">
+			<handler alias="ProcessScheduler"/>
+		</event>
+		<event type="10008" typename="ABORT_PROCESS">
+			<handler alias="ProcessScheduler"/>
+		</event>
+		<event type="10009" typename="FINISH_PROCESS">
+			<handler alias="ProcessScheduler"/>
+		</event>
+
+
+
+		<event type="20000" typename="PRESTART_ACTIVITY">
+			<handler alias="ActivityExecuter"/>
+		</event>
+		<event type="20001" typename="START_ACTIVITY">
+			<handler alias="ActivityExecuter"/>
+		</event>
+		<event type="20002" typename="RESTART_ACTIVITY">
+			<handler alias="ActivityExecuter"/>
+		</event>
+		<event type="20003" typename="CHANGE_ACTIVITY_STATE">
+			<handler alias="ActivityExecuter"/>
+		</event>
+		<event type="20004" typename="FINISH_ACTIVITY">
+			<handler alias="ActivityExecuter"/>
+		</event>
+		<event type="20005" typename="TERMINATE_ACTIVITY">
+			<handler alias="ActivityExecuter"/>
+		</event>
+		<event type="20006" typename="ABORT_ACTIVITY">
+			<handler alias="ActivityExecuter"/>
+		</event>
+		<event type="20007" typename="SUSPEND_ACTIVITY">
+			<handler alias="ActivityExecuter"/>
+		</event>
+		<event type="20008" typename="RESUME_ACTIVITY">
+			<handler alias="ActivityExecuter"/>
+		</event>
+		<event type="20009" typename="SUB_TASK_FINISHED">
+			<handler alias="ActivityExecuter"/>
+		</event>
+
+
+		<event type="40001" typename="EXCEPTION_TIMOUT">
+			<handler alias="ExceptionHandler"/>
+		</event>
+		<event type="40002" typename="EXCEPTION_PROC_TIMEOUT">
+			<handler alias="ExceptionHandler"/>
+		</event>
+		<event type="40003" typename="EXCEPTION_PROC_REMIND">
+			<handler alias="ExceptionHandler"/>
+		</event>
+		<event type="40004" typename="EXCEPTION_WI_TIMEOUT">
+			<handler alias="ExceptionHandler"/>
+		</event>
+		<event type="40005" typename="EXCEPTION_WI_REMIND">
+			<handler alias="ExceptionHandler"/>
+		</event>
+
+		<event type="50001" typename="APPLICATION_RETURN">
+			<handler alias="ApplicationHandler"/>
+		</event>
+
+		<event type="60001" typename="TRIGGER_EVENT">
+			<handler class="com.primeton.workflow.engine.scheduler.event.TriggerEventHandler"/>
+		</event>
+	
+		<event type="70001" typename="TASK_FINISH">
+			<handler alias="TaskHandler"/>
+		</event>
+		<event type="70002" typename="TASK_RESTART">
+			<handler alias="TaskHandler"/>
+		</event>
+		<event type="70003" typename="TASK_TERMINATE">
+			<handler alias="TaskHandler"/>
+		</event>
+		<event type="70004" typename="TASK_CREATE">
+			<handler alias="TaskHandler"/>
+		</event>
+		<event type="70005" typename="TASK_SUSPEND">
+			<handler alias="TaskHandler"/>
+		</event>
+		<event type="70006" typename="TASK_RESUME">
+			<handler alias="TaskHandler"/>
+		</event>
+		
+		<event type="80001" typename="BIZINFO_INIT">
+			<handler alias="WFBizEventHandler"/>
+		</event>
+		<event type="80002" typename="BIZINFO_UPDATE">
+			<handler alias="WFBizEventHandler"/>
+		</event>
+		<event type="80003" typename="BIZINFO_REMOVE">
+			<handler alias="WFBizEventHandler"/>
+		</event>
+		
+		
+	</events>
+</event-config>
