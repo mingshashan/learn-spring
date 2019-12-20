@@ -41,7 +41,9 @@ public class EventContext {
         parent = null;
         eventList.clear();
         currentPos=0;
-        if (exceptionList!=null) exceptionList.clear();
+        if (exceptionList!=null) {
+            exceptionList.clear();
+        }
     }
     
     public void setParent(Event aParent){
