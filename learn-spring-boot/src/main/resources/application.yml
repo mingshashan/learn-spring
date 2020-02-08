@@ -2,3 +2,6 @@ server:
   port: 18085
 
 debug: true
+spring:
+  application:
+    name: my-test
