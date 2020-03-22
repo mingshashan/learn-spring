@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:int="http://www.springframework.org/schema/integration"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:int-stream="http://www.springframework.org/schema/integration/stream"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration
+		http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/stream
+		http://www.springframework.org/schema/integration/stream/spring-integration-stream.xsd">
+
+
+    <!--声明网关-->
+    <int:gateway id="shop" service-interface="com.mingshashan.learn.integration.demo01.Shop"/>
+
+    <!-- 声明式定义放置和处理Orders的输入channel -->
+    <int:channel id="ordersChannel"/>
+
+    <!--    <int:logging-channel-adapter id="logger" logger-name="WIRETAP"-->
+    <!--                                 level="INFO" expression="'playload: ' + getPlayload()"/>-->
+    <int:logging-channel-adapter id="logger" logger-name="WIRETAP"
+                                 level="INFO" expression="'payload: ' + getPayload()"/>
+
+
+    <int:splitter input-channel="ordersChannel" ref="orderSplitter"
+                  output-channel="orderItemsChannel"/>
+
+    <beans:bean id="orderSplitter" class="com.mingshashan.learn.integration.demo01.OrderSplitter"></beans:bean>
+
+    <int:channel id="orderItemsChannel">
+        <int:interceptors>
+            <int:wire-tap channel="logger"></int:wire-tap>
+        </int:interceptors>
+    </int:channel>
+
+
+    <int:router input-channel="orderItemsChannel"
+                ref="orderRouter" method="routeOrder"></int:router>
+    <beans:bean id="orderRouter" class="com.mingshashan.learn.integration.demo01.OrderItemRouter"></beans:bean>
+
+
+    <beans:bean id="shopKeeper" class="com.mingshashan.learn.integration.demo01.Shopkeeper"></beans:bean>
+
+
+    <!-- book items channel-->
+    <int:channel id="bookItemsChannel">
+        <int:queue capacity="10"></int:queue>
+    </int:channel>
+    <int:service-activator input-channel="bookItemsChannel"
+                           ref="shopKeeper" method="processBook" output-channel="processItems"></int:service-activator>
+
+    <!-- music items channel-->
+    <int:channel id="musicItemsChannel">
+        <int:queue capacity="10"></int:queue>
+    </int:channel>
+    <int:service-activator input-channel="musicItemsChannel"
+                           ref="shopKeeper" method="processMusic" output-channel="processItems"></int:service-activator>
+
+
+    <!-- software items channel-->
+    <int:channel id="softwareItemsChannel">
+        <int:queue capacity="10"></int:queue>
+    </int:channel>
+    <int:service-activator input-channel="softwareItemsChannel"
+                           ref="shopKeeper" method="processSoftware"
+                           output-channel="processItems"></int:service-activator>
+
+
+    <int:channel id="processItems"></int:channel>
+    <int:aggregator input-channel="processItems"
+                    method="prepareDelivery"
+                    output-channel="diliveries">
+        <beans:bean class="com.mingshashan.learn.integration.demo01.aggergator.OrderCompleter"></beans:bean>
+    </int:aggregator>
+
+    <!--    <int:stream-transformer id="deliveries"></int:stream-transformer>-->
+    <int-stream:stdout-channel-adapter id="diliveries"></int-stream:stdout-channel-adapter>
+
+    <int:poller id="poller" default="true" fixed-delay="1000">
+    </int:poller>
+</beans:beans>

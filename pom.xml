@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.4.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <groupId>com.mingshashan.learn</groupId>
+    <artifactId>learn-spring</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>learn-spring</name>
+    <description>父工程</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+    </properties>
+
+    <modules>
+        <module>demo</module>
+        <module>eureka-server</module>
+        <module>eureka-server1</module>
+        <module>learn-blog</module>
+        <module>learn-custom-event</module>
+        <module>learn-es</module>
+        <module>learn-hystrix</module>
+        <module>learn-kafka</module>
+        <module>learn-mybatis</module>
+        <module>learn-oauth2</module>
+        <module>learn-spring-boot</module>
+        <module>learn-spring-framework</module>
+        <module>learn-spring.iml</module>
+        <module>learn-webflux</module>
+        <module>spring-boot-log4j</module>
+        <module>spring-websocket</module>
+        <module>springboot-admin</module>
+        <module>test-order</module>
+        <module>test-product</module>
+        <module>test-stock</module>
+        <module>web-service-demo</module>
+        <module>write-read-separation</module>
+    </modules>
+
+</project>

@@ -12,12 +12,12 @@ import reactor.core.publisher.Mono;
 @RestController
 public class HelloWebFluxController {
 
-    @GetMapping("/hello")
+//    @GetMapping("/hello")
     public String hello() {
         return "Hello, WebFlux !";
     }
 
-    @GetMapping("/book")
+//    @GetMapping("/book")
     public Mono<BookVO> getBook() {
         BookVO bookVO = new BookVO();
         bookVO.setName("《红楼梦》");
