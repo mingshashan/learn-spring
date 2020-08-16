@@ -1,49 +1,54 @@
 package com.mingshashan.learn.netty.bio;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Date;
 
+/**
+ * BioServer
+ *
+ * @author jasonxu
+ */
 public class BioServer {
 
-    private final static int PORT = 9091;
-
     public static void main(String[] args) {
+        new BioServer(9010).start();
+    }
 
+    private int port;
+
+    public BioServer(int port) {
+        this.port = port;
+    }
+
+    public void start() {
         ServerSocket serverSocket = null;
-        try {
-            serverSocket = new ServerSocket(PORT);
 
-            while (true) {
-                Socket socket = serverSocket.accept();
-                doService(socket);
+        try {
+            serverSocket = new ServerSocket(this.port);
+
+            Socket socket = serverSocket.accept();
+            InputStream inputStream = socket.getInputStream();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
+//            PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream()));
+
+            String msg = reader.readLine();
+            if (null != msg) {
+                System.out.println("收到消息：" + msg);
             }
 
-
-//            doSend(socket);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (null != serverSocket) {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-    }
-
-    private static void doService(Socket socket) throws IOException {
-        InputStream inputStream = socket.getInputStream();
-
-        byte[] buffer = new byte[1024];
-        int length = inputStream.read(buffer);
-        if (-1 != length) {
-            String msg = new String(buffer, 0, length);
-            System.out.println(String.format("接收到客户端的消息： %s", msg));
-        }
-    }
-
-    private static void doSend(Socket socket) throws IOException {
-        OutputStream outputStream = socket.getOutputStream();
-        String date = new Date().toString();
-        String msg = "server send msg " + date;
-        outputStream.write(msg.getBytes());
     }
 }
