@@ -10,6 +10,8 @@ import reactor.core.publisher.Mono;
 public class MonoDemo {
     public static void main(String[] args) {
 
-        Mono<String> mono
+        Mono<String> mono = Mono.justOrEmpty("haha");
+        mono.subscribe(System.out::println);
+
     }
 }
