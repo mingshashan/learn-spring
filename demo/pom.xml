@@ -5,11 +5,11 @@
     <parent>
         <groupId>com.mingshashan.learn</groupId>
         <artifactId>learn-spring</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
-        <relativePath>../</relativePath>
-    </parent>
-    <groupId>com.example</groupId>
-    <artifactId>demo</artifactId>
+<version>0.0.1-SNAPSHOT</version>
+<relativePath>../</relativePath>
+        </parent>
+<groupId>com.example</groupId>
+<artifactId>demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
@@ -61,6 +61,26 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.ws.xmlschema/xmlschema-core &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.ws.xmlschema</groupId>-->
+        <!--            <artifactId>xmlschema-core</artifactId>-->
+        <!--            <version>2.2.5</version>-->
+        <!--        </dependency>-->
+        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.axis2/axis2-kernel &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.apache.axis2</groupId>-->
+        <!--            <artifactId>axis2-kernel</artifactId>-->
+        <!--            <version>1.6.4</version>-->
+        <!--        </dependency>-->
+        <!-- https://mvnrepository.com/artifact/org.apache.axis2/axis2-kernel -->
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-kernel</artifactId>
+            <version>1.7.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <dependencyManagement>
