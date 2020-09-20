@@ -19,4 +19,9 @@
         <constructor-arg name="name" value="小明"/>
     </bean>
 
+
+    <!-- FactoryBean -->
+    <bean id="userFactoryBean" class="com.mingshashan.learn.context.init3.UserFactoryBean"></bean>
+
+
 </beans>
