@@ -1,9 +1,6 @@
 package com.mingshashan.learn.begin.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * UserController
@@ -24,5 +21,11 @@ public class UserController {
     public String users(@PathVariable String id) {
         System.out.println("users" + id);
         return "user-" + id;
+    }
+    @PostMapping("users")
+    public String haha() throws InterruptedException {
+
+        Thread.sleep(5000L);
+        return "haha";
     }
 }

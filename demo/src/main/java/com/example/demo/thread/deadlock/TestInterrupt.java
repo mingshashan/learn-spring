@@ -20,6 +20,9 @@ public class TestInterrupt {
                     System.out.println("Hello World!  " + (++i));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    System.out.println("线程停止");
+                    Thread.currentThread().interrupt();
+                    break;
                 }
             }
 
@@ -34,7 +37,7 @@ public class TestInterrupt {
 
         });
 
-        t.start();
+
 
         Thread t2 = new Thread(() -> {
             while (i < 10) {
@@ -45,9 +48,10 @@ public class TestInterrupt {
                     e.printStackTrace();
                 }
             }
-
+            System.out.println("线程t");
             t.interrupt();
         });
+        t.start();
         t2.start();
 
     }
