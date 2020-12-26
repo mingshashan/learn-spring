@@ -2,6 +2,10 @@ package com.mingshashan.learn.begin.controller;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * UserController
  *
@@ -13,6 +17,19 @@ public class UserController {
 
     @GetMapping("users")
     public String usersss(String id) {
+
+//        List<Integer> lists = new ArrayList<Integer>();
+//        lists.add(3);
+//        lists.add(13);
+//        lists.add(2);
+//        lists.add(23);
+//        lists.add(32);
+//        lists.add(532);
+//        lists.add(2);
+//        lists.add(43);
+//
+//        lists.sort(Integer::compareTo);
+
         System.out.println("users");
         return "haha";
     }
@@ -22,6 +39,7 @@ public class UserController {
         System.out.println("users" + id);
         return "user-" + id;
     }
+
     @PostMapping("users")
     public String haha() throws InterruptedException {
 

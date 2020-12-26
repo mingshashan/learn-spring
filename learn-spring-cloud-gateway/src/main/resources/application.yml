@@ -1,0 +1,73 @@
+# 开启resilience4j断路器
+# spring.cloud.circuitbreaker.resilience4j.enabled: true
+# 设置hystrix断路器超时时间
+# hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 2000
+
+
+
+
+spring:
+  application:
+    name: mima-cloud-gateway
+  redis:
+    database: 1
+    host: localhost
+    port: 6379
+    password:
+  cloud:
+    gateway:
+      routes:
+        - id: rate-limit-demo
+          uri: lb://mima-cloud-producer
+#          uri: http://localhost:8801
+          predicates:
+            #访问路径：http://localhost:8801/rate/123
+            - Path=/rate/**
+          filters:
+            - name: RequestRateLimiter
+              args:
+                # 令牌桶每秒填充平均速率, 允许用户每秒处理多少个请求。
+                redis-rate-limiter.replenishRate: 1
+                # 令牌桶的容量，允许在1s内完成的最大请求数。
+                redis-rate-limiter.burstCapacity: 2
+                # 使用SpEL表达式从Spring容器中获取Bean对象, 查看RateLimiteConfig实现类中的同名方法
+                #key-resolver: "#{@pathKeyResolver}"
+                #key-resolver: "#{@ipKeyResolver}"
+                #请求地址写法：http://localhost:8801/rate/123?userId=lisi
+                key-resolver: "#{@userKeyResolver}"
+#    circuitbreaker:
+#      hystrix:
+#        enabled: true
+
+
+#  The RequestRateLimiter GatewayFilter Factory
+#  The Redis RateLimiter
+#  Modify a Request Body GatewayFilter Factory 测试版本，未来可能改动
+#  Modify a Response Body GatewayFilter Factory 测试版本，未来可能改动
+
+server:
+  port: 8801
+
+
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      #defaultZone: http://kevin:123456@localhost:8761/eureka/
+#      defaultZone: http://localhost:8761/eureka/
+#    healthcheck:
+#      enabled: false
+#  instance:
+#    prefer-ip-address: true
+#    #instance-id: ${spring.application.name}:${spring.cloud.client.ip-address:}:${server.port}
+#    instance-id: ${spring.application.name}:${server.port}
+debug: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+    shutdown: true

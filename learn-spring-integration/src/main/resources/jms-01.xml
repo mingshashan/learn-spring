@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:int="http://www.springframework.org/schema/integration"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:jms="http://www.springframework.org/schema/integration/jms"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration
+		http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/jms
+		https://www.springframework.org/schema/integration/jms/spring-integration-jms.xsd">
+
+
+    <beans:bean id="jmsConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <beans:property name="targetConnectionFactory">
+            <beans:bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                <beans:property name="brokerURL" value="tcp://localhost:61616"></beans:property>
+            </beans:bean>
+        </beans:property>
+        <beans:property name="sessionCacheSize" value="10"></beans:property>
+        <beans:property name="cacheConsumers" value="false"></beans:property>
+    </beans:bean>
+
+
+    <beans:bean id="hello-queue" class="org.apache.activemq.command.ActiveMQQueue">
+        <beans:property name="physicalName" value="hello-queue"></beans:property>
+    </beans:bean>
+
+
+    <int:poller id="poller" default="true" fixed-delay="1000">
+    </int:poller>
+
+
+    <!-- inbound gateway-->
+    <int:channel id="inboundChannel"></int:channel>
+
+    <jms:inbound-gateway id="jmsIn" request-destination="hello-queue"
+                         request-channel="inboundChannel"></jms:inbound-gateway>
+
+    <beans:bean id="inBoundHH" class="com.mingshashan.learn.integration.jms.InboundActivator"></beans:bean>
+    <beans:bean id="inBoundHH2" class="com.mingshashan.learn.integration.jms.InboundActivator2"></beans:bean>
+    <beans:bean id="inboundTransformer" class="com.mingshashan.learn.integration.jms.InboundTransformer"></beans:bean>
+    <int:service-activator id="inboundActivator" input-channel="inboundChannel" ref="inBoundHH" method="print"
+                           async="false"></int:service-activator>
+    <!--    <int:service-activator id="inboundActivator2" input-channel="inboundChannel" ref="inBoundHH2" method="print" async="false"></int:service-activator>-->
+
+
+    <int:channel id="handHandler"></int:channel>
+    <int:transformer id="transformer" input-channel="inboundChannel" ref="inboundTransformer" method="transform"
+                     output-channel="handHandler"></int:transformer>
+    <int:service-activator id="inboundActivator2" input-channel="handHandler" ref="inBoundHH2" method="print"
+                           async="false"></int:service-activator>
+
+    <!-- outbound gateway-->
+
+    <!--    <int:channel id="inputJmsChannel"></int:channel>-->
+    <!--    <stream:stdin-channel-adapter id="inputChannelAdapter" channel="inputJmsChannel"></stream:stdin-channel-adapter>-->
+
+
+    <!--    <int:channel id="outChannel"></int:channel>-->
+    <!--    <jms:outbound-gateway id="jmsOut" request-destination="hello-queue"-->
+    <!--                          request-channel="inputJmsChannel"-->
+    <!--                          reply-channel="outChannel"></jms:outbound-gateway>-->
+
+
+</beans:beans>
