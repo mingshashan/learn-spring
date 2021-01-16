@@ -6,10 +6,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.channels.ServerSocketChannel;
 
 public class BIOSocket {
     public static void main(String[] args) {
         try {
+
+
             ServerSocket socket = new ServerSocket(9090);
             System.out.println("step1: new ServerSocket(9090)");
 
