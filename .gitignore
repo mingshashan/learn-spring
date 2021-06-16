@@ -212,3 +212,5 @@ logs/
 # End of https://www.gitignore.io/api/intellij,intellij+iml,maven,eclipse,macos,windows
 *.pid
 .flattened-pom.xml
+order/agent/debugging
+test-order/agent/debugging
