@@ -1,18 +1,12 @@
 package com.mingshashan.learn.netty.learn01;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpContentCompressor;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
-
-import java.net.InetSocketAddress;
 
 /**
  * HttpServer
@@ -22,40 +16,43 @@ import java.net.InetSocketAddress;
 public class HttpServer {
 
     public static void main(String[] args) {
-        new HttpServer().start(8181);
+        new HttpServer().start();
     }
 
-    public void start(int port) {
-        EventLoopGroup bossEventLoopGroup = new NioEventLoopGroup();
-        EventLoopGroup workerEventLoopGroup = new NioEventLoopGroup(5);
+    public void start() {
 
         ServerBootstrap serverBootstrap = new ServerBootstrap();
+        EventLoopGroup boss = new NioEventLoopGroup();
+        EventLoopGroup worker = new NioEventLoopGroup();
+
+        serverBootstrap.group(boss, worker);
+
+        serverBootstrap.channel(NioServerSocketChannel.class);
+        serverBootstrap.childHandler(new ChannelInitializer() {
+
+            @Override
+            protected void initChannel(Channel ch) throws Exception {
+                ch.pipeline()
+                        .addLast("codec", new HttpServerCodec())
+                        .addLast("compressor", new HttpContentCompressor())
+                        .addLast("aggregator", new HttpObjectAggregator(65535))
+                        .addLast("handler", new MyHttpServerHandler());
+            }
+        }).childOption(ChannelOption.SO_KEEPALIVE, true);
 
         try {
-            serverBootstrap.group(bossEventLoopGroup, workerEventLoopGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .localAddress(new InetSocketAddress(port))
-                    .childHandler(new ChannelInitializer<SocketChannel>() {
+            ChannelFuture future = serverBootstrap.localAddress(18080)
+                    .bind().sync();
 
-                        @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline()
-                                    .addLast("codec", new HttpServerCodec())                  // HTTP 编解码
-                                    .addLast("compressor", new HttpContentCompressor())       // HttpContent 压缩
-                                    .addLast("aggregator", new HttpObjectAggregator(65536))   // HTTP 消息聚合
-                                    .addLast("handler", new HttpServerHandler());             // 自定义业务逻辑处理器
-                        }
-                    })
-                    .childOption(ChannelOption.SO_KEEPALIVE, true);
-
-            ChannelFuture channelFuture = serverBootstrap.bind().sync();
-            System.out.println("Http Server started, Listening on " + port);
-            channelFuture.channel().closeFuture().sync();
+            System.out.println("Netty http server started..., listening on [18080].");
+            future.channel().closeFuture().sync();
         } catch (InterruptedException e) {
-
+            System.err.println("启动错误！");
+            e.printStackTrace();
         } finally {
-            bossEventLoopGroup.shutdownGracefully();
-            workerEventLoopGroup.shutdownGracefully();
+            boss.shutdownGracefully();
+            worker.shutdownGracefully();
         }
+
     }
 }

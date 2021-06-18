@@ -19,7 +19,7 @@ public class LeanBeginApplication {
         ConfigurableApplicationContext context = springApplication.run(args);
         LeanBeginApplication application = context.getBean(LeanBeginApplication.class);
         System.out.println(application);
-        context.close();
+//        context.close();/**/
 //        SpringApplicationBuilder builder = new SpringApplicationBuilder();
 //        builder.main(LeanBeginApplication.class);
 //        builder.listeners(new TestApplicationListener());
