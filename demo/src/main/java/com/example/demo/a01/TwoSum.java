@@ -6,7 +6,8 @@ public class TwoSum {
 
     public static void main(String[] args) {
         testSum();
-        System.out.println("----------------------");
+        System.out.println("-----" +
+                "-----------------");
         testReverse();
     }
 
@@ -17,6 +18,9 @@ public class TwoSum {
         System.out.println(Arrays.toString(numbers));
     }
 
+    /**
+     * aaa
+     */
     private static void testSum() {
         int[] numbers = new int[]{2, 7, 11, 15};
         int target = 13;

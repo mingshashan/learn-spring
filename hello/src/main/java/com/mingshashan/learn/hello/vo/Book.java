@@ -1,7 +1,6 @@
 package com.mingshashan.learn.hello.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import javax.validation.constraints.NotBlank;
 
 /**
  * Book
@@ -10,12 +9,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Book {
 
-    @JsonProperty("ZHENG_HE_ZHI_ID")
+    //    @JsonProperty("ZHENG_HE_ZHI_ID")
     private String id;
-    @JsonProperty("ZHENG_HE_ZHI_NAME")
+    //    @JsonProperty("ZHENG_HE_ZHI_NAME")
+    @NotBlank(message = "name不能为空")
     private String name;
-    @JsonProperty("ZHENG_HE_ZHI_AUTHOR")
+    //    @JsonProperty("ZHENG_HE_ZHI_AUTHOR")
     private String author;
+
+    public Book() {
+
+    }
 
     public Book(String id, String name, String author) {
         this.id = id;
