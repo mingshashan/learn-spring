@@ -1,5 +1,6 @@
 package com.mingshashan.learn.mq.rocket.learn01;
 
+import com.mingshashan.learn.mq.rocket.MQConstant;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
@@ -13,12 +14,12 @@ public class Consumer01 {
 
     public static void main(String[] args) throws MQClientException {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer();
-        consumer.setConsumerGroup(MQConstant01.CONSUMER_GROUP);
+        consumer.setConsumerGroup(MQConstant.CONSUMER_GROUP);
         consumer.setNamesrvAddr("192.168.75.129:9876");
 
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
 
-        consumer.subscribe(MQConstant01.TOPIC, "*");
+        consumer.subscribe(MQConstant.TOPIC, "*");
 
         consumer.setMessageListener((MessageListenerConcurrently) (list, consumeConcurrentlyContext) -> {
 

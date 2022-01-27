@@ -1,5 +1,6 @@
 package com.mingshashan.learn.mq.rocket.learn01;
 
+import com.mingshashan.learn.mq.rocket.MQConstant;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -28,8 +29,8 @@ public class Producer01 {
             bodyId = "id-" + count;
             String body = "Message Body " + count++;
             Message message = new Message();
-            message.setTopic(MQConstant01.TOPIC);
-            message.setTags(MQConstant01.TAG);
+            message.setTopic(MQConstant.TOPIC);
+            message.setTags(MQConstant.TAG);
             message.setBuyerId(bodyId);
             message.setBody(body.getBytes(StandardCharsets.UTF_8));
 
