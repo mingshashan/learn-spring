@@ -16,6 +16,12 @@ public interface MQConstant {
     String CONSUMER_GROUP = "consumer-group-01";
 
 
+    String SIMPLE_PRODUCER_GROUP =    "simple-test-producer-group";
+    String SIMPLE_TOPIC =             "simple-test-topic";
+    String SIMPLE_TAG1 =              "simple-test-tag1";
+    String SIMPLE_TAG2 =              "simple-test-tag2";
+    String SIMPLE_CONSUMER_GROUP =    "simple-test-consumer-group";
+
     String ORDER_GROUP = "order_test_group";
 
     String ORDER_TOPIC = "order_test_topic";
