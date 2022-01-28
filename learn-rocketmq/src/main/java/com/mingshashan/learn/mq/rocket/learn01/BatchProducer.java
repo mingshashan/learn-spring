@@ -9,45 +9,36 @@ import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class ScheduleProducer {
+public class BatchProducer {
 
     public static void main(String[] args) throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
-        DefaultMQProducer producer = new DefaultMQProducer(MQConstant.SCHEDULE_PRODUCER_GROUP);
+        DefaultMQProducer producer = new DefaultMQProducer(MQConstant.BATCH_PRODUCER_GROUP);
 
         producer.setNamesrvAddr(MQConstant.NAME_SRV_ADDR);
 
         producer.start();
 
-        System.out.println("Schedule Message Producer Start");
+        System.out.println("Batch Message Producer Start");
 
-        for (int i = 0; i < MQConstant.MSG_COUNT_100; i++) {
-            Message message = new Message(MQConstant.SCHEDULE_TOPIC,
-                    "schedule-test-tag-" + i, "KEY-" + i,
+        List<Message> messageList = new ArrayList<>();
+        for (int i = 0; i < MQConstant.MSG_COUNT_1000; i++) {
+            Message message = new Message(MQConstant.BATCH_TOPIC,
+                    i % 2 == 0 ? MQConstant.BATCH_TAG2 : MQConstant.BATCH_TAG1,
+                    "KEY-" + i,
                     ("Broadcasting Message , i-" + i).getBytes(StandardCharsets.UTF_8));
 
-            if (i % 2 == 0) {
-                message.setDelayTimeLevel(2);
-            }
+            messageList.add(message);
 
-            if (i % 3 == 0) {
-                message.setDelayTimeLevel(3);
-            }
-
-            if (i % 5 == 0) {
-                message.setDelayTimeLevel(5);
-            }
-
-            if (i % 7 == 0) {
-                message.setDelayTimeLevel(7);
-            }
-
-            SendResult sendResult = producer.send(message);
-            System.out.println(sendResult);
-            TimeUnit.SECONDS.sleep(1);
+            // TimeUnit.MILLISECONDS.sleep(100);
         }
 
+        SendResult sendResult = producer.send(messageList);
+        System.out.println(sendResult);
+        messageList.clear();
         producer.shutdown();
 
     }
