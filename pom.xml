@@ -57,7 +57,7 @@
         <module>learn-alibaba</module>
         <module>learn-spring-boot</module>
         <module>learn-spring-framework</module>
-        <module>learn-spring.iml</module>
+        <module>learn-spring-beans</module>
         <module>learn-webflux</module>
         <module>spring-boot-log4j</module>
         <module>spring-websocket</module>
@@ -68,6 +68,7 @@
         <module>web-service-demo</module>
         <module>write-read-separation</module>
         <module>learn-rocketmq</module>
+        <module>learn-nacos</module>
     </modules>
 
 </project>
