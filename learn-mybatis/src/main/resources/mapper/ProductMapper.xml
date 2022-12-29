@@ -1,0 +1,28 @@
+<mapper namespace="com.mingshashan.learn.learnmybatis.mapper.ProductMapper">
+    <resultMap id="productMap" type="com.mingshashan.learn.learnmybatis.domain.Product">
+        <!-- 主键映射 -->
+        <id property="id" column="id"/>
+        <!-- 属性映射 -->
+        <result property="name" column="name"/>
+        <result property="price" column="price"/>
+        <result property="description" column="description"/>
+    </resultMap>
+
+    <select id="find" resultType="com.mingshashan.learn.learnmybatis.domain.Product">
+        SELECT id, name, price, description
+        from t_product
+        where id = #{id}
+    </select>
+
+    <select id="findByName" resultType="com.mingshashan.learn.learnmybatis.domain.Product">
+        SELECT id, name, price, description
+        from t_product
+        where name = #{name}
+    </select>
+
+    <insert id="save" keyProperty="id" useGeneratedKeys="true">
+        insert into t_product (name, price, description)
+        values (#{product.name}, #{product.price}, #{product.description})
+    </insert>
+
+</mapper>
