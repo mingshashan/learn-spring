@@ -1,3 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mingshashan.learn.learnmybatis.mapper.ProductMapper">
     <resultMap id="productMap" type="com.mingshashan.learn.learnmybatis.domain.Product">
         <!-- 主键映射 -->
@@ -22,7 +26,7 @@
 
     <insert id="save" keyProperty="id" useGeneratedKeys="true">
         insert into t_product (name, price, description)
-        values (#{product.name}, #{product.price}, #{product.description})
+        values (#{name}, #{price}, #{description})
     </insert>
 
 </mapper>

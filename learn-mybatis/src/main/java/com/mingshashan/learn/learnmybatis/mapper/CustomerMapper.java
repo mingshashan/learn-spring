@@ -9,12 +9,12 @@ public interface CustomerMapper {
     /**
      * 根据用户Id查询Customer(不查询Address)
      */
-    Customer find(long id);
+    Customer find(String id);
 
     /**
      * 根据用户Id查询Customer(同时查询Address)
      */
-    Customer findWithAddress(long id);
+    Customer findWithAddress(String id);
 
     /**
      * 根据orderId查询Customer
