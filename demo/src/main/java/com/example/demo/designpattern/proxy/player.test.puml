@@ -1,0 +1,15 @@
+@startuml
+interface Player {
+~ void playGame()
+}
+class XiaoMing {
++ void playGame()
+}
+class XiaoHong {
+- Player player
++ void playGame()
+}
+
+Player <|-- XiaoMing
+Player <|-- XiaoHong
+@enduml

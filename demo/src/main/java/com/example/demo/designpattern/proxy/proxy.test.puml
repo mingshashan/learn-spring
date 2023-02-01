@@ -1,0 +1,20 @@
+@startuml
+interface Subject {
+~ void doSomething()
+}
+class ConcreteSubject1 {
++ void doSomething()
+}
+class ConcreteSubject2 {
++ void doSomething()
+}
+
+class Proxy {
+- Subject subject
++ void doSomething()
+}
+
+Subject <|-- ConcreteSubject1
+Subject <|-- ConcreteSubject2
+Subject <|-- Proxy
+@enduml
