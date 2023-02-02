@@ -1,6 +1,6 @@
-package com.example.demo.designpattern.proxy;
+package com.example.demo.designpattern.proxy.cglib;
 
-public class XiaoHong implements Player{
+public class XiaoHong implements Player {
 
     private Player player;
 

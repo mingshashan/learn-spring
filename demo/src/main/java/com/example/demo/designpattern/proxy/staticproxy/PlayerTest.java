@@ -1,4 +1,4 @@
-package com.example.demo.designpattern.proxy;
+package com.example.demo.designpattern.proxy.staticproxy;
 
 public class PlayerTest {
 
